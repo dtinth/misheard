@@ -94,6 +94,7 @@
 <script lang="ts">
 import { defineComponent, onUpdated, reactive, ref } from "vue";
 import { sharedMessages } from "./doc";
+import { lang } from "./params";
 
 declare var webkitSpeechRecognition: typeof SpeechRecognition;
 
@@ -106,9 +107,9 @@ export default defineComponent({
     const listening = ref(false);
     const draft = ref("");
     const sr = new webkitSpeechRecognition();
-    sr.lang = "th_TH";
+    sr.lang = lang;
     const sr2 = new webkitSpeechRecognition();
-    sr2.lang = "th_TH";
+    sr2.lang = lang;
     sr2.continuous = true;
     sr2.interimResults = true;
     sharedMessages.observe(() => {
