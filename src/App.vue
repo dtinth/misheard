@@ -176,7 +176,9 @@ export default defineComponent({
     };
     let scrollIsAtBottom = true;
     window.onscroll = () => {
-      scrollIsAtBottom = window.scrollY > window.innerHeight - 20;
+      scrollIsAtBottom =
+        window.scrollY >
+        document.documentElement.scrollHeight - window.innerHeight - 16;
     };
     onUpdated(() => {
       if (scrollIsAtBottom) {
