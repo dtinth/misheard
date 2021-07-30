@@ -1,92 +1,101 @@
 <template>
-  <div class="p-2 text-sm bg-gray-100">
-    Notice: Please use Google Chrome on Desktop or Android only. Other browsers
-    are not supported.
-  </div>
-  <div class="p-4">
-    <template v-if="!name">
-      <h2 class="text-3xl mb-6">Log in</h2>
-      <button
+  <div class="mx-auto max-w-2xl">
+    <div class="p-2 text-sm bg-gray-100">
+      Notice: Please use Google Chrome on Desktop or Android only. Other
+      browsers are not supported.
+    </div>
+    <div class="p-4 bg-white">
+      <template v-if="!name">
+        <h2 class="text-3xl mb-6">Log in</h2>
+        <button
+          class="
+            bg-blue-500
+            hover:bg-blue-700
+            text-white
+            font-bold
+            py-2
+            px-4
+            rounded
+          "
+          @click="login()"
+        >
+          Click to log in
+        </button>
+      </template>
+      <template v-else>
+        <h2 class="text-3xl mb-6">Hello {{ name }}</h2>
+        <ul>
+          <li v-for="(message, i) of messages" :key="i">
+            <strong>[{{ message.name }}]</strong>
+            {{ message.text }}
+          </li>
+          <li v-if="draft" class="text-gray-500">
+            <strong>[{{ name }}]</strong>
+            {{ draft }}
+          </li>
+        </ul>
+        <div v-if="!listening">
+          <button
+            class="
+              bg-blue-500
+              hover:bg-blue-700
+              text-white
+              font-bold
+              py-2
+              px-4
+              rounded
+            "
+            @click="send()"
+          >
+            ส่งข้อความ
+          </button>
+          <button
+            class="
+              ml-2
+              border border-red-500
+              hover:bg-red-700
+              py-2
+              px-4
+              rounded
+            "
+            @click="changeName()"
+          >
+            เปลี่ยนชื่อ
+          </button>
+        </div>
+        <div v-else>
+          พูดข้อความที่ต้องการส่ง...
+          <button
+            class="
+              bg-blue-500
+              hover:bg-blue-700
+              text-white
+              font-bold
+              py-2
+              px-4
+              rounded
+            "
+            @click="stop()"
+          >
+            หยุดฟัง
+          </button>
+        </div>
+      </template>
+      <div
+        v-if="currentPrompt"
         class="
-          bg-blue-500
-          hover:bg-blue-700
-          text-white
+          bg-yellow-400
+          text-black
+          p-8
+          inset-x-0
+          bottom-0
+          fixed
+          text-center
           font-bold
-          py-2
-          px-4
-          rounded
         "
-        @click="login()"
       >
-        Click to log in
-      </button>
-    </template>
-    <template v-else>
-      <h2 class="text-3xl mb-6">Hello {{ name }}</h2>
-      <ul>
-        <li v-for="(message, i) of messages" :key="i">
-          <strong>[{{ message.name }}]</strong>
-          {{ message.text }}
-        </li>
-        <li v-if="draft" class="text-gray-500">
-          <strong>[{{ name }}]</strong>
-          {{ draft }}
-        </li>
-      </ul>
-      <div v-if="!listening">
-        <button
-          class="
-            bg-blue-500
-            hover:bg-blue-700
-            text-white
-            font-bold
-            py-2
-            px-4
-            rounded
-          "
-          @click="send()"
-        >
-          ส่งข้อความ
-        </button>
-        <button
-          class="ml-2 border border-red-500 hover:bg-red-700 py-2 px-4 rounded"
-          @click="changeName()"
-        >
-          เปลี่ยนชื่อ
-        </button>
+        {{ currentPrompt }}
       </div>
-      <div v-else>
-        พูดข้อความที่ต้องการส่ง...
-        <button
-          class="
-            bg-blue-500
-            hover:bg-blue-700
-            text-white
-            font-bold
-            py-2
-            px-4
-            rounded
-          "
-          @click="stop()"
-        >
-          หยุดฟัง
-        </button>
-      </div>
-    </template>
-    <div
-      v-if="currentPrompt"
-      class="
-        bg-yellow-400
-        text-black
-        p-8
-        inset-x-0
-        bottom-0
-        fixed
-        text-center
-        font-bold
-      "
-    >
-      {{ currentPrompt }}
     </div>
   </div>
 </template>
