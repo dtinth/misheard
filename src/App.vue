@@ -24,7 +24,7 @@
       </template>
       <template v-else>
         <h2 class="text-3xl mb-6">Hello {{ name }}</h2>
-        <ul>
+        <ul class="mb-5">
           <li v-for="(message, i) of messages" :key="i">
             <strong>[{{ message.name }}]</strong>
             {{ message.text }}
@@ -54,6 +54,7 @@
               ml-2
               border border-red-500
               hover:bg-red-700
+              hover:text-white
               py-2
               px-4
               rounded
@@ -67,10 +68,9 @@
           Speak your message...
           <button
             class="
-              bg-blue-500
+              border border-blue-500
               hover:bg-blue-700
-              text-white
-              font-bold
+              hover:text-white
               py-2
               px-4
               rounded
