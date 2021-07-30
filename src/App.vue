@@ -47,7 +47,7 @@
             "
             @click="send()"
           >
-            ส่งข้อความ
+            Send message
           </button>
           <button
             class="
@@ -60,11 +60,11 @@
             "
             @click="changeName()"
           >
-            เปลี่ยนชื่อ
+            Change name
           </button>
         </div>
         <div v-else>
-          พูดข้อความที่ต้องการส่ง...
+          Speak your message...
           <button
             class="
               bg-blue-500
@@ -77,7 +77,7 @@
             "
             @click="stop()"
           >
-            หยุดฟัง
+            Stop listening
           </button>
         </div>
       </template>
@@ -144,7 +144,9 @@ export default defineComponent({
       }
     };
     const login = async () => {
-      localStorage.MISHEARD_NAME = name.value = await ask("พูดชื่อซิ");
+      localStorage.MISHEARD_NAME = name.value = await ask(
+        "Say your name out loud"
+      );
     };
     const changeName = async () => {
       localStorage.MISHEARD_NAME = name.value = "";
