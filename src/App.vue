@@ -7,24 +7,11 @@
     <div class="p-4 bg-white">
       <template v-if="!langIsSet">
         <h2 class="text-3xl mb-6">Select language</h2>
-        <span v-for="([l, ...lo], i) of langs" :key="i" class="text-gray-500">
-          {{ i > 0 ? " · " : "" }}
-          <a
-            class="font-bold text-blue-800"
-            v-if="lo.length === 1"
-            :href="'?lang=' + lo[0][0]"
-            >{{ l }}</a
-          >
-          <span v-else>
-            <strong class="text-gray-900">{{ l }}</strong>
-            {{ " (" }}
-            <span v-for="([n, ll], j) of lo" :key="j">
-              {{ j > 0 ? ", " : "" }}
-              <a class="text-blue-800" :href="'?lang=' + n">{{ ll }}</a>
-            </span>
-            {{ ")" }}
-          </span>
-        </span>
+        <ul class="langlist">
+          <li v-for="[n] of locales" :key="n">
+            <a class="text-blue-800" :href="'?lang=' + n">{{ n }}</a>
+          </li>
+        </ul>
       </template>
       <template v-else-if="!name">
         <h2 class="text-3xl mb-6">Log in</h2>
@@ -122,7 +109,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onUpdated, reactive, ref } from "vue";
+import { computed, defineComponent, onUpdated, reactive, ref } from "vue";
 import { sharedMessages } from "./doc";
 import { lang, langIsSet } from "./params";
 import { langs } from "./langs";
@@ -219,6 +206,11 @@ export default defineComponent({
         window.scrollBy(0, 1000);
       }
     });
+    const locales = computed(() => {
+      return langs
+        .flatMap(([l, ...lo]) => lo)
+        .sort((a, b) => (a[0] < b[0] ? -1 : 1));
+    });
     return {
       name,
       login,
@@ -231,12 +223,29 @@ export default defineComponent({
       changeName,
       langIsSet,
       langs,
+      locales,
     };
   },
 });
 </script>
 
 <style>
-#app {
+.langlist {
+  column-count: 2;
+}
+@media (min-width: 500px) {
+  .langlist {
+    column-count: 3;
+  }
+}
+@media (min-width: 600px) {
+  .langlist {
+    column-count: 4;
+  }
+}
+@media (min-width: 720px) {
+  .langlist {
+    column-count: 5;
+  }
 }
 </style>
