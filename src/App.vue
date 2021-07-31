@@ -5,7 +5,28 @@
       browsers are not supported.
     </div>
     <div class="p-4 bg-white">
-      <template v-if="!name">
+      <template v-if="!langIsSet">
+        <h2 class="text-3xl mb-6">Select language</h2>
+        <span v-for="([l, ...lo], i) of langs" :key="i" class="text-gray-500">
+          {{ i > 0 ? " · " : "" }}
+          <a
+            class="font-bold text-blue-800"
+            v-if="lo.length === 1"
+            :href="'?lang=' + lo[0][0]"
+            >{{ l }}</a
+          >
+          <span v-else>
+            <strong class="text-gray-900">{{ l }}</strong>
+            {{ " (" }}
+            <span v-for="([n, ll], j) of lo" :key="j">
+              {{ j > 0 ? ", " : "" }}
+              <a class="text-blue-800" :href="'?lang=' + n">{{ ll }}</a>
+            </span>
+            {{ ")" }}
+          </span>
+        </span>
+      </template>
+      <template v-else-if="!name">
         <h2 class="text-3xl mb-6">Log in</h2>
         <button
           class="
@@ -103,7 +124,8 @@
 <script lang="ts">
 import { defineComponent, onUpdated, reactive, ref } from "vue";
 import { sharedMessages } from "./doc";
-import { lang } from "./params";
+import { lang, langIsSet } from "./params";
+import { langs } from "./langs";
 
 declare var webkitSpeechRecognition: typeof SpeechRecognition;
 
@@ -207,6 +229,8 @@ export default defineComponent({
       stop,
       messages,
       changeName,
+      langIsSet,
+      langs,
     };
   },
 });
