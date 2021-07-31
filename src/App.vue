@@ -130,9 +130,20 @@ export default defineComponent({
     sr2.lang = lang;
     sr2.continuous = true;
     sr2.interimResults = true;
+
+    let lastMessageCreatedAt: string | undefined;
     sharedMessages.observe(() => {
       messages.value = sharedMessages.toJSON();
+
+      const lastMessage = messages.value[messages.value.length - 1];
+      if (lastMessage) {
+        if (lastMessageCreatedAt !== lastMessage.createdAt) {
+          lastMessageCreatedAt = lastMessage.createdAt;
+          (window as any).handleNewMessage?.(lastMessage);
+        }
+      }
     });
+
     const ask = async (prompt: string): Promise<string> => {
       try {
         currentPrompt.value = prompt;
